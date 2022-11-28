@@ -21,7 +21,7 @@
  *    [0, 1, 2, 3, 4, 5], 5    => 5
  */
 function findElement(arr, value) {
-  return arr.indexOf(value) || -1;
+  return arr.indexOf(value);
 }
 
 /**
@@ -53,9 +53,7 @@ function generateOdds(len) {
  *    [] => []
  */
 function doubleArray(arr) {
-  const res = arr.slice();
-  res.push(arr);
-  return res.flat();
+  return [arr, arr].flat();
 }
 
 
@@ -103,7 +101,7 @@ function getArrayOfStrings(arr) {
  *    [ false, 0, NaN, '', undefined ]   => [ ]
  */
 function removeFalsyValues(arr) {
-  return arr.filter((el) => !!el === true);
+  return arr.filter((el) => el);
 }
 
 /**
@@ -177,7 +175,7 @@ function getHead(arr, n) {
  *    [ 'a', 'b', 'c', 'd'], 3  => [ 'b', 'c', 'd' ]
  */
 function getTail(arr, n) {
-  return arr.slice(arr.length - n);
+  return arr.slice(-n);
 }
 
 
@@ -311,7 +309,7 @@ function get3TopItems(arr) {
  *   [ 1, '2' ] => 1
  */
 function getPositivesCount(arr) {
-  return arr.filter((el) => el > 0 && typeof el === 'number').length;
+  return arr.filter((el) => typeof el === 'number' && el > 0).length;
 }
 
 /**
@@ -437,15 +435,11 @@ function toStringList(arr) {
  */
 function sortCitiesArray(arr) {
   return arr.sort((a, b) => {
-    if (a.country < b.country) {
-      return -1;
+    let diff = 1;
+    if (a.country < b.country || (a.country === b.country && a.city < b.city)) {
+      diff = -1;
     }
-    if (a.country === b.country) {
-      if (a.city < b.city) {
-        return -1;
-      }
-    }
-    return 1;
+    return diff;
   });
 }
 
@@ -504,7 +498,8 @@ function getIntervalArray(start, end) {
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
 function distinct(arr) {
-  return arr.filter((el, index, array) => array.indexOf(el) === index);
+  return Array.from(arr.reduce((accumulator, currentValuer) => accumulator.add(currentValuer),
+    new Set()));
 }
 
 /**
